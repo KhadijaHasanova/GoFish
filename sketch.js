@@ -62,7 +62,7 @@ function setup() {
  ground.addImage(backgroundImg);
  
  //create the fish and add the animations
- fish = createSprite(200,400);
+ fish = createSprite(width/2-700,height/2);
  fish.addAnimation("fishRight",fishRight);
  fish.addAnimation("fishLeft",fishLeft);
  
@@ -72,17 +72,17 @@ function setup() {
  gameOver.scale = 2;
  
  //create the grey bar
- greyBar = createSprite(250,550,300,20)
+ greyBar = createSprite(width/2-700,height/2+340,300,20)
  greyBar.shapeColor = "grey";
  greyBar.depth = fish.depth - 1;
 
  //create the score bar
- scoreBar = createSprite(175,550,150,20)
+ scoreBar = createSprite(width/2-775,height/2+340,150,20)
  scoreBar.shapeColor = "darkorange";
  scoreBar.depth = fish.depth - 1;
 
  //create the score carrot
- scoreCarrot = createSprite(65,540);
+ scoreCarrot = createSprite(width/2-875,height/2+330);
  scoreCarrot.addImage(carrotImg);
  scoreCarrot.depth = fish.depth - 1;
 
@@ -160,6 +160,18 @@ function draw() {
   easy.show();
   medium.show();
   hard.show();
+
+  //reset the score bars
+  greyBar.x = width/2-700;
+  greyBar.y = height/2+340;
+  scoreBar.x = width/2-775;
+  scoreBar.y = height/2+340
+  scoreBar.width = 150;
+
+  //reset the position of the fish
+  fish.x = width/2-700;
+  fish.y = height/2;
+  fish.addAnimation("fishRight",fishRight);
  
   //display the game name
   strokeWeight(5);
@@ -294,7 +306,7 @@ function draw() {
   }
 
   //end the game when there is no energy left
-  if(scoreBar.width <= 150) {
+  if(scoreBar.width <= 0) {
     //change the game state
     gameState = 4;
 
@@ -327,13 +339,13 @@ if(gameState === 2) {
 
   //move the fish with left arrow key and set the animation
   if(keyDown(LEFT_ARROW)) {
-    fish.x = fish.x - 5;
+    fish.x = fish.x - 6;
     fish.changeAnimation("fishLeft",fishLeft);
   }
 
   //move the fish with the right arrow key and set the animation
   if(keyDown(RIGHT_ARROW)) {
-    fish.x = fish.x + 5;
+    fish.x = fish.x + 6;
     fish.changeAnimation("fishRight",fishRight);
   }   
  
@@ -344,7 +356,7 @@ if(gameState === 2) {
 
   //move the fish with the down arrow key
   if(keyDown(DOWN_ARROW)) {
-    fish.y = fish.y + 5;
+    fish.y = fish.y + 6;
   }
 
   //spawn the sharks
@@ -425,24 +437,24 @@ if(gameState === 3) {
 
   //move the fish with left arrow key and set the animation
   if(keyDown(LEFT_ARROW)) {
-    fish.x = fish.x - 5;
+    fish.x = fish.x - 7;
     fish.changeAnimation("fishLeft",fishLeft);
   }
 
   //move the fish with the right arrow key and set the animation
   if(keyDown(RIGHT_ARROW)) {
-    fish.x = fish.x + 5;
+    fish.x = fish.x + 7;
     fish.changeAnimation("fishRight",fishRight);
   }   
  
   //move the fish with up arrow key
   if(keyDown(UP_ARROW)) {
-    fish.y = fish.y - 5;
+    fish.y = fish.y - 7;
   }
 
   //move the fish with the down arrow key
   if(keyDown(DOWN_ARROW)) {
-    fish.y = fish.y + 5;
+    fish.y = fish.y + 7;
   }
 
   //spawn the sharks
@@ -481,7 +493,7 @@ if(gameState === 3) {
   }
 
   //let the player win when the energy bar is full
-  if(scoreBar.width >= 150) {
+  if(scoreBar.width >= 300) {
     //change the game state
     gameState = 5;
 
@@ -555,33 +567,33 @@ if(gameState === 3) {
 
  
 function easySharks() {
-  if(frameCount % 300 === 0) {
-    var randY = Math.round(random(80,520));
-    shark = createSprite(1200,randY,200,200);
+  if(frameCount % 400 === 0) {
+    var randY = Math.round(random(height-100,height/2-400));
+    shark = createSprite(width+100,randY,200,200);
     shark.addImage(sharkImg);
     shark.scale = 0.8;
-    shark.lifetime = 400;
+    shark.lifetime = 500;
     shark.velocityX = -5;
     obstacleGroup.add(shark);
   }
  }
   
  function easyCarrots() {
-  if(frameCount % 200 === 0) {
-    var randX = Math.round(random(50,1150));
-    carrot = createSprite(randX,-20,200,200);
+  if(frameCount % 250 === 0) {
+    var randX = Math.round(random(width/2-900,width-50));
+    carrot = createSprite(randX,-10,200,200);
     carrot.addImage(carrotImg);
     carrot.velocityY = 3;
-    carrot.lifetime = 250;
+    carrot.lifetime = 400;
     foodGroup.add(carrot);
   }
  }
 
 
  function mediumSharks() {
-  if(frameCount % 250 === 0) {
-    var randY = Math.round(random(80,520));
-    shark = createSprite(1200,randY,200,200);
+  if(frameCount % 350 === 0) {
+    var randY = Math.round(random(height-100,height/2-400));
+    shark = createSprite(width+100,randY,200,200);
     shark.addImage(sharkImg);
     shark.scale = 0.8;
     shark.lifetime = 400;
@@ -591,21 +603,21 @@ function easySharks() {
  }
   
  function mediumCarrots() {
-  if(frameCount % 200 === 0) {
-    var randX = Math.round(random(50,1150));
-    carrot = createSprite(randX,-20,200,200);
+  if(frameCount % 250 === 0) {
+    var randX = Math.round(random(width/2-900,width-50));
+    carrot = createSprite(randX,-10,200,200);
     carrot.addImage(carrotImg);
     carrot.velocityY = 4;
-    carrot.lifetime = 250;
+    carrot.lifetime = 300;
     foodGroup.add(carrot);
   }
  }
 
 
 function hardSharks() {
-  if(frameCount % 200 === 0) {
-    var randY = Math.round(random(80,520));
-    shark = createSprite(1200,randY,200,200);
+  if(frameCount % 300 === 0) {
+    var randY = Math.round(random(height-100,height/2-400));
+    shark = createSprite(width+100,randY,200,200);
     shark.addImage(sharkImg);
     shark.scale = 0.8;
     shark.lifetime = 400;
@@ -615,12 +627,12 @@ function hardSharks() {
  }
   
  function hardCarrots() {
-  if(frameCount % 200 === 0) {
-    var randX = Math.round(random(50,1150));
-    carrot = createSprite(randX,-20,200,200);
+  if(frameCount % 250 === 0) {
+    var randX = Math.round(random(width/2-900,width-50));
+    carrot = createSprite(randX,-10,200,200);
     carrot.addImage(carrotImg);
     carrot.velocityY = 5;
-    carrot.lifetime = 250;
+    carrot.lifetime = 300;
     foodGroup.add(carrot);
   }
  }
